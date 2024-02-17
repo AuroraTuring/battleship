@@ -54,7 +54,7 @@ RSpec describe Cell do
     end
   end
 
-  describe "#Render cells" do
+  describe "#render cells" do
     it "renders '.' as default" do
       expect(@cell.render).to eq(".")
       @cell.place_ship(@cruiser)
@@ -88,5 +88,19 @@ RSpec describe Cell do
       expect(@cell.render(true)).to eq("X")
     end
   # These two tests are fail-safes for if a cell is somehow fired upon more than once.
+
+    it "cannot hit a ship more than once" do
+      @cell.place_ship(@cruiser)
+      @cell.fire_upon
+      @cell.fire_upon
+      expect(@cell.ship.health).to eq(2)
+    end
+
+    it "does nothing when missed twice on same cell" do
+      @cell.fire_upon
+      @cell.fire_upon
+      expect(@cell.render).to eq("M")
+      expect(@cell.render(true)).to eq("M")
+    end
   end
 end
