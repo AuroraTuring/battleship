@@ -39,7 +39,117 @@ pry(main)> cruiser.hit
 pry(main)> cruiser.sunk?
 #=> true
 ```
+## Cell
+A Cell object is a single cell on our board. A Cell can either contain a Ship or nothing.
+```
+pry(main)> require './lib/ship'
+# => true
 
+pry(main)> require './lib/cell'
+# => true
+
+pry(main)> cell = Cell.new("B4")
+# => #<Cell:0x00007f84f0ad4720...>
+
+pry(main)> cell.coordinate
+# => "B4"
+
+pry(main)> cell.ship
+# => nil
+
+pry(main)> cell.empty?
+# => true
+
+pry(main)> cruiser = Ship.new("Cruiser", 3)
+# => #<Ship:0x00007f84f0891238...>
+
+pry(main)> cell.place_ship(cruiser)
+
+pry(main)> cell.ship
+# => #<Ship:0x00007f84f0891238...>
+
+pry(main)> cell.empty?
+# => false
+```
+Additionally, a cell knows when it has been fired upon. When it is fired upon, the cell’s ship should be damaged if it has one:
+```
+pry(main)> require './lib/ship'
+# => true
+
+pry(main)> require './lib/cell'
+# => true
+
+pry(main)> cell = Cell.new("B4")
+# => #<Cell:0x00007f84f0ad4720...>
+
+pry(main)> cruiser = Ship.new("Cruiser", 3)
+# => #<Ship:0x00007f84f0891238...>
+
+pry(main)> cell.place_ship(cruiser)
+
+pry(main)> cell.fired_upon?
+# => false
+
+pry(main)> cell.fire_upon
+
+pry(main)> cell.ship.health
+# => 2
+
+pry(main)> cell.fired_upon?
+# => true
+```
+Finally, a Cell will have a method called render which returns a String representation of the Cell for when we need to print the board. A cell can potentially be rendered as:
+
+`”.”` if the cell has not been fired upon.
+`“M”` if the cell has been fired upon and it does not contain a ship (the shot was a miss).
+`“H”` if the cell has been fired upon and it contains a ship (the shot was a hit).
+`“X”` if the cell has been fired upon and its ship has been sunk.
+Additionally, we will include an optional boolean argument to indicate if we want to reveal a ship in the cell even if it has not been fired upon. This should render a cell that has not been fired upon and contains a ship as an `“S”`. This will be useful for showing the user where they placed their ships and for debugging.
+```
+pry(main)> cell_1 = Cell.new("B4")
+# => #<Cell:0x00007f84f11df920...>
+
+pry(main)> cell_1.render
+# => "."
+
+pry(main)> cell_1.fire_upon
+
+pry(main)> cell_1.render
+# => "M"
+
+pry(main)> cell_2 = Cell.new("C3")
+# => #<Cell:0x00007f84f0b29d10...>
+
+pry(main)> cruiser = Ship.new("Cruiser", 3)
+# => #<Ship:0x00007f84f0ad4fb8...>
+
+pry(main)> cell_2.place_ship(cruiser)
+
+pry(main)> cell_2.render
+# => "."
+
+# Indicate that we want to show a ship with the optional argument
+pry(main)> cell_2.render(true)
+# => "S"
+
+pry(main)> cell_2.fire_upon
+
+pry(main)> cell_2.render
+# => "H"
+
+pry(main)> cruiser.sunk?
+# => false
+
+pry(main)> cruiser.hit
+
+pry(main)> cruiser.hit
+
+pry(main)> cruiser.sunk?
+# => true
+
+pry(main)> cell_2.render
+# => "X"
+```
 # Iteration 2
 ## Test Driven Development
 In this iteration, you are required to use TDD to create your classes. Use the interaction pattern to determine what a method should do and write one or more tests to verify that expected behavior. Then you can implement the method. You should always write code with the purpose of making a test pass.
