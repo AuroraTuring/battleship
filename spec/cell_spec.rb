@@ -54,7 +54,7 @@ RSpec describe Cell do
     end
   end
 
-  describe "#Rendering cells" do
+  describe "#Render cells" do
     it "renders '.' as default" do
       expect(@cell.render).to eq(".")
       @cell.place_ship(@cruiser)
@@ -89,7 +89,4 @@ RSpec describe Cell do
     end
   # These two tests are fail-safes for if a cell is somehow fired upon more than once.
   end
-
-  end
-
 end
