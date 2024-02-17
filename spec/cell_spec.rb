@@ -1,6 +1,5 @@
 require "./spec/spec_helper"
 
-# rubocop:disable Metrics/BlockLength
 RSpec.describe Cell do
   before(:each) do
     @cell = Cell.new("B4")
@@ -105,4 +104,3 @@ RSpec.describe Cell do
     end
   end
 end
-# rubocop:enable Metrics/BlockLength
