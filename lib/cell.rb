@@ -29,7 +29,8 @@ class Cell
     @ship.hit
   end
 
-  def render
+  def render(show_ship = false)
+    return "S" if !empty? && !fired_upon? && show_ship
     return "M" if empty? && fired_upon?
 
     "."
