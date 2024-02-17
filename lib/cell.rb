@@ -30,6 +30,8 @@ class Cell
   end
 
   def render
+    return "M" if empty? && fired_upon?
+
     "."
   end
 end
