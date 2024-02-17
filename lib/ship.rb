@@ -1,3 +1,4 @@
+# To-do: add comments/documentation for class Ship
 class Ship
   attr_reader :name, :length, :health
 
@@ -17,7 +18,6 @@ class Ship
   end
 
   def hit
-    if health > 0
-      @health -= 1
+    @health -= 1 if health > 0
   end
 end

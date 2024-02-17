@@ -1,4 +1,4 @@
-require "spec/spec_helper"
+require "./spec/spec_helper"
 
 # rubocop:disable Metrics/BlockLength
 RSpec.describe Ship do
