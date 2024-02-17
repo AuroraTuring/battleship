@@ -31,12 +31,14 @@ RSpec describe Cell do
       @cell.place_ship(@cruiser)
       expect(@cell.fired_upon?).to eq(false)
     end
+
     it "can be fired upon and hit ships" do
       @cell.place_ship(@cruiser)
       @cell.fire_upon
       expect(@cell.fired_upon?).to eq(true)
       expect(@cell.ship.health).to eq(2)
     end
+
     it "does nothing when fired upon twice" do
       @cell.place_ship(@cruiser)
       @cell.fire_upon
@@ -44,6 +46,7 @@ RSpec describe Cell do
       expect(@cell.fired_upon?).to eq(true)
       expect(@cell.ship.health).to eq(2)
     end
+
     it "does not throw an error when there is no ship" do
       @cell.fire_upon
       expect(@cell.fired_upon?).to eq(true)
@@ -57,6 +60,36 @@ RSpec describe Cell do
       @cell.place_ship(@cruiser)
       expect(@cell.render).to eq(".")
     end
+
+    it "renders 'M' for a miss" do
+      @cell.fire_upon
+      expect(@cell.render).to eq("M")
+    end
+
+    it "renders 'S' when argument 'true' is provided" do
+      @cell.place_ship(@cruiser)
+      expect(@cell.render(true)).to eq("S")
+    end
+
+    it "renders 'H' when hit, regardless of argument" do
+      @cell.place_ship(@cruiser)
+      @cell.fire_upon
+      expect(@cell.render).to eq("H")
+      expect(@cell.render(true)).to eq("H")
+    end
+
+    it "renders 'X' when ship is sunk, regardless of argument" do
+      @cell.place_ship(@cruiser)
+      @cell.fire_upon
+      @cell.ship.hit
+      @cell.ship.hit
+      expect(@cell.ship.sunk?).to eq(true)
+      expect(@cell.render).to eq("X")
+      expect(@cell.render(true)).to eq("X")
+    end
+  # These two tests are fail-safes for if a cell is somehow fired upon more than once.
+  end
+
   end
 
 end
