@@ -1,6 +1,7 @@
 require "./spec/spec_helper"
 
-RSpec describe Cell do
+# rubocop:disable Metrics/BlockLength
+RSpec.describe Cell do
   before(:each) do
     @cell = Cell.new("B4")
     @cruiser = Ship.new("Cruiser", 3)
@@ -87,7 +88,7 @@ RSpec describe Cell do
       expect(@cell.render).to eq("X")
       expect(@cell.render(true)).to eq("X")
     end
-  # These two tests are fail-safes for if a cell is somehow fired upon more than once.
+    # These two tests are fail-safes for if a cell is somehow fired upon more than once.
 
     it "cannot hit a ship more than once" do
       @cell.place_ship(@cruiser)
@@ -104,3 +105,4 @@ RSpec describe Cell do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
