@@ -51,4 +51,12 @@ RSpec describe Cell do
     end
   end
 
+  describe "#Rendering cells" do
+    it "renders '.' as default" do
+      expect(@cell.render).to eq(".")
+      @cell.place_ship(@cruiser)
+      expect(@cell.render).to eq(".")
+    end
+  end
+
 end
