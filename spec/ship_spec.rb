@@ -1,5 +1,6 @@
 require "spec/spec_helper"
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe Ship do
   before(:each) do
     @cruiser = Ship.new("Cruiser", 3)
@@ -42,3 +43,4 @@ RSpec.describe Ship do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
