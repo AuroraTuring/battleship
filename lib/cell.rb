@@ -32,6 +32,8 @@ class Cell
   def render(show_ship = false)
     return "S" if !empty? && !fired_upon? && show_ship
     return "M" if empty? && fired_upon?
+    return "H" if !empty? && fired_upon? && @ship.health > 0
+    return "X" if !empty? && fired_upon? && @ship.health <= 0
 
     "."
   end
