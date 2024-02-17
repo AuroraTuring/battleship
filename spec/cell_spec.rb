@@ -15,15 +15,15 @@ RSpec describe Cell do
   end
 
   describe "#place_ships" do
-  it "is empty by default" do
-    expect(@cell.empty?).to eq(true)
-  end
+    it "is empty by default" do
+      expect(@cell.empty?).to eq(true)
+    end
 
-  it "can have ships placed" do
-    @cell.place_ship(@cruiser)
-    expect(@cell.ship).to eq(@cruiser)
-    expect(@cell.empty?).to eq(false)
+    it "can have ships placed" do
+      @cell.place_ship(@cruiser)
+      expect(@cell.ship).to eq(@cruiser)
+      expect(@cell.empty?).to eq(false)
+    end
   end
-end
 
 end
