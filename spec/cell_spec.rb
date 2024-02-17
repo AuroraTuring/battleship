@@ -26,4 +26,29 @@ RSpec describe Cell do
     end
   end
 
+  describe "#firing on the cell" do
+    it "is not fired upon by default" do
+      @cell.place_ship(@cruiser)
+      expect(@cell.fired_upon?).to eq(false)
+    end
+    it "can be fired upon and hit ships" do
+      @cell.place_ship(@cruiser)
+      @cell.fire_upon
+      expect(@cell.fired_upon?).to eq(true)
+      expect(@cell.ship.health).to eq(2)
+    end
+    it "does nothing when fired upon twice" do
+      @cell.place_ship(@cruiser)
+      @cell.fire_upon
+      @cell.fire_upon
+      expect(@cell.fired_upon?).to eq(true)
+      expect(@cell.ship.health).to eq(2)
+    end
+    it "does not throw an error when there is no ship" do
+      @cell.fire_upon
+      expect(@cell.fired_upon?).to eq(true)
+      expect(@cell.ship.nil?).to eq(true)
+    end
+  end
+
 end
