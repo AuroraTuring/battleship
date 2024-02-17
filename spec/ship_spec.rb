@@ -32,5 +32,13 @@ RSpec.describe Ship do
       @cruiser.hit
       expect(@cruiser.sunk?).to eq(true)
     end
+    it "cannot go below 0 health" do
+      @cruiser.hit
+      @cruiser.hit
+      @cruiser.hit
+      @cruiser.hit
+      expect(@cruiser.health).to eq(0)
+      expect(@cruiser.sunk?).to eq(true)
+    end
   end
 end
