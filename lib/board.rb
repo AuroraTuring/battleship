@@ -15,39 +15,44 @@ class Board
     coordinate.match?(/^[A-D][1-4]$/)
   end
 
-  def valid_placement?(ship, coordinates) # rubocop:disable Metrics/MethodLength
+  def valid_placement?(ship, coordinates)
     coordinates.each do |coordinate|
       return false unless valid_coordinate?(coordinate)
     end
 
     return false if ship.class != Ship
-
     return false unless coordinates.length == ship.length
 
     sorted_coordinates = coordinates.sort
 
-    # Returns false if either the first characters are not equivalent or the
-    # second characters are not equivalent. Also returns false if all of
-    # the coordinates are the same.
-    sorted_coordinates.each_cons(2) do |coordinate_pair|
+    return false unless check_coordinate_format(sorted_coordinates)
+    return false unless check_consecutive_coordinates(sorted_coordinates)
+
+    true
+  end
+
+  # Returns false if either the first characters are not equivalent or the
+  # second characters are not equivalent. Also returns false if all of
+  # the coordinates are the same.
+  def check_coordinate_format(coordinates)
+    coordinates.each_cons(2) do |coordinate_pair|
       unless (
-          coordinate_pair[0][0] == coordinate_pair[1][0] ||
-          coordinate_pair[0][1] == coordinate_pair[1][1]
-        ) && !(
-          coordinate_pair[0][0] == coordinate_pair[1][0] &&
-          coordinate_pair[0][1] == coordinate_pair[1][1]
-        )
+        coordinate_pair[0][0] == coordinate_pair[1][0] ||
+        coordinate_pair[0][1] == coordinate_pair[1][1]
+      ) && !(
+        coordinate_pair[0][0] == coordinate_pair[1][0] &&
+        coordinate_pair[0][1] == coordinate_pair[1][1]
+      )
         return false
       end
+    end
+    true
+  end
 
-      # Returns false if there are neither consecutive letters or numbers
-      vertical_or_horizontal = if coordinate_pair[0][0] == coordinate_pair[1][0]
-                                 "horizontal"
-                               else
-                                 "vertical"
-                               end
-
-      if vertical_or_horizontal == "horizontal"
+  # Returns false if there are neither consecutive letters or numbers
+  def check_consecutive_coordinates(coordinates)
+    coordinates.each_cons(2) do |coordinate_pair|
+      if coordinate_pair[0][0] == coordinate_pair[1][0]
         if coordinate_pair[0][1].ord + 1 != coordinate_pair[1][1].ord
           return false
         end
@@ -55,7 +60,5 @@ class Board
         return false
       end
     end
-
-    true
   end
 end
