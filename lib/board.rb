@@ -27,6 +27,7 @@ class Board
 
     return false unless check_coordinate_format(sorted_coordinates)
     return false unless check_consecutive_coordinates(sorted_coordinates)
+    return false if overlapping(sorted_coordinates)
 
     true
   end
@@ -60,5 +61,27 @@ class Board
         return false
       end
     end
+  end
+
+  def place(ship, coords)
+    can_place = true
+    coords.each do |coord|
+      can_place = false unless valid_coordinate?(coord)
+    end
+
+    can_place = false unless valid_placement?(ship, coords)
+
+    return unless can_place
+
+    coords.each do |coord|
+      @cells[coord].place_ship(ship)
+    end
+  end
+
+  def overlapping(coords)
+    coords.each do |coord|
+      return true unless @cells[coord].empty?
+    end
+    false
   end
 end
