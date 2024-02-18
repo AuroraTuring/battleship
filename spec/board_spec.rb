@@ -1,6 +1,6 @@
 require "./spec/spec_helper"
 
-RSpec.describe Board do # rubocop:disable Metrics/BlockLength
+RSpec.describe Board do
   before "each" do
     @board = Board.new
     @cruiser = Ship.new("Cruiser", 3)
