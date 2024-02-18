@@ -1,6 +1,6 @@
 require "./spec/spec_helper"
 
-RSpec.describe Board do
+RSpec.describe Board do # rubocop:disable Metrics/BlockLength
   before "each" do
     @board = Board.new
     @cruiser = Ship.new("Cruiser", 3)
@@ -35,34 +35,29 @@ RSpec.describe Board do
 
   describe "#valid_placement?" do
     it "knows ship length" do
-      expect(@board.valid_placement?(@cruiser, ["A1", "A2"])).to be false
-      expect(@board.valid_placement?(@cruiser, ["A1", "A2", "A3"])).to be true
-      expect(@board.valid_placement?(@submarine, ["A2", "A3", "A4"])).to be false
-      expect(@board.valid_placement?(@submarine, ["A2", "A3"])).to be true
+      expect(@board.valid_placement?(@cruiser, %w[A1 A2])).to be false
+      expect(@board.valid_placement?(@cruiser, %w[A1 A2 A3])).to be true
+      expect(@board.valid_placement?(@submarine,
+                                     %w[A2 A3 A4])).to be false
+      expect(@board.valid_placement?(@submarine, %w[A2 A3])).to be true
     end
 
     it "has consecutive placement" do
-      expect(@board.valid_placement?(@cruiser, ["B1", "C1", "D1"])).to be true #vertical
-      expect(@board.valid_placement?(@cruiser, ["B1", "B2", "B3"])).to be true #horizontal
-      expect(@board.valid_placement?(@cruiser, ["A1", "B2", "C3"])).to be false #diagonal
-      expect(@board.valid_placement?(@cruiser, ["A3", "A2", "A1"])).to be false #descending
-      expect(@board.valid_placement?(@cruiser, ["A1", "A2", "A4"])).to be false #not consecutive
-    end
-
-    it "cells cannot be diagonal" do
-      expect(@board.valid_placement?(@cruiser, ["A1", "B2", "C3"])).to be false
+      expect(@board.valid_placement?(@cruiser, %w[B1 C1 D1])).to be true # vertical
+      expect(@board.valid_placement?(@cruiser, %w[B1 B2 B3])).to be true # horizontal
+      expect(@board.valid_placement?(@cruiser, %w[A1 B2 C3])).to be false # diagonal
+      expect(@board.valid_placement?(@cruiser, %w[A1 A2 A4])).to be false # not consecutive
     end
 
     it "can be in backwards order, so long as they are adjacent" do
-      expect(@board.valid_placement?(@cruiser, ["A3", "A1", "A2"])).to be true
-      expect(@board.valid_placement?(@cruiser, ["C1", "A1", "B1"])).to be true
+      expect(@board.valid_placement?(@cruiser, %w[A3 A1 A2])).to be true
+      expect(@board.valid_placement?(@cruiser, %w[C1 A1 B1])).to be true
     end
   end
 
-
   describe "#place_ship" do
     it "can place ship" do
-      @board.place(@cruiser, ["A1", "A2", "A3"])
+      @board.place(@cruiser, %w[A1 A2 A3])
 
       @cell_1 = @board.cells["A1"]
       @cell_2 = @board.cells["A2"]
@@ -75,11 +70,8 @@ RSpec.describe Board do
     end
 
     it "knows if a ship is overlapping" do
-      @cell_1 = @board.cells["A1"]
-      @cell_2 = @board.cells["A2"]
-      @cell_3 = @board.cells["A3"]
-      @board.place(@cruiser, ["A1", "A2", "A3"])
-      expect(@board.valid_placement?(@submarine, ["A1", "B1"])).to be false
+      @board.place(@cruiser, %w[A1 A2 A3])
+      expect(@board.valid_placement?(@submarine, %w[A1 B1])).to be false
     end
   end
 
