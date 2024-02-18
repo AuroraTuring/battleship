@@ -121,6 +121,16 @@ RSpec.describe Board do
       expect(@board.check_consecutive_coordinates(not_consecutive1)).to eq(false)
       expect(@board.check_consecutive_coordinates(not_consecutive2)).to eq(false)
     end
+    it "can check that coordinates are either vertical or horizontal" do
+      correct_format1 = %w[A1 A2 A3]
+      correct_format2 = %w[A1 B1 C1]
+      incorrect_format1 = %w[A1 B2 B3]
+      incorrect_format2 = %w[A1 A2 B3]
+      expect(@board.check_coordinate_format(correct_format1)).to eq(true)
+      expect(@board.check_coordinate_format(correct_format2)).to eq(true)
+      expect(@board.check_coordinate_format(incorrect_format1)).to eq(false)
+      expect(@board.check_coordinate_format(incorrect_format2)).to eq(false)
+    end
   end
 end
 # rubocop:enable Metrics/BlockLength
