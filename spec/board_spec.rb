@@ -49,6 +49,10 @@ RSpec.describe Board do
       expect(@board.valid_placement?(@cruiser, ["A1", "A2", "A4"])).to be false #not consecutive
     end
 
+    it "cells cannot be diagonal" do
+      expect(@board.valid_placement?(@cruiser, ["A1", "B2", "C3"])).to be false
+    end
+
     it "can be in backwards order, so long as they are adjacent" do
       expect(@board.valid_placement?(@cruiser, ["A3", "A1", "A2"])).to be true
       expect(@board.valid_placement?(@cruiser, ["C1", "A1", "B1"])).to be true
@@ -79,5 +83,37 @@ RSpec.describe Board do
     end
   end
 
+  describe "#rendering" do
+    it "renders an empty board" do
+      render = @board.render
+      render_true = @board.render(true)
+      expected = "  1 2 3 4 \n" \
+                "A . . . . \n" \
+                "B . . . . \n" \
+                "C . . . . \n" \
+                "D . . . . \n"
+      expect(render).to eq(expected)
+      expect(render_true).to eq(expected)
+    end
+    it "renders a board with ships on it" do
+      @board.place(@cruiser, %w[A1 A2 A3])
+      render = @board.render
+      render_true = @board.render(true)
 
+      expected_opponent = "  1 2 3 4 \n" \
+                          "A . . . . \n" \
+                          "B . . . . \n" \
+                          "C . . . . \n" \
+                          "D . . . . \n"
+
+      expected_self = "  1 2 3 4 \n" \
+                      "A S S S . \n" \
+                      "B . . . . \n" \
+                      "C . . . . \n" \
+                      "D . . . . \n"
+
+      expect(render).to eq(expected_opponent)
+      expect(render_true).to eq(expected_self)
+    end
+  end
 end
