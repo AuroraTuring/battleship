@@ -1,6 +1,5 @@
 require "./spec/spec_helper"
 
-# rubocop:disable Metrics/BlockLength
 RSpec.describe Board do
   before "each" do
     @board = Board.new
@@ -131,6 +130,9 @@ RSpec.describe Board do
       expect(@board.check_coordinate_format(incorrect_format1)).to eq(false)
       expect(@board.check_coordinate_format(incorrect_format2)).to eq(false)
     end
+    it "can identify overlapping ships" do
+      @board.place(@cruiser, %w[A1 A2 A3])
+      expect(@board.overlapping(%w[A1 B1])).to eq(true)
+    end
   end
 end
-# rubocop:enable Metrics/BlockLength
