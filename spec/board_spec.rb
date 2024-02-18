@@ -1,5 +1,6 @@
 require "./spec/spec_helper"
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe Board do
   before "each" do
     @board = Board.new
@@ -108,4 +109,18 @@ RSpec.describe Board do
       expect(render_true).to eq(expected_self)
     end
   end
+
+  describe "#Unit tests" do
+    it "can check consecutive coordinates" do
+      consecutive1 = %w[C1 C2 C3 C4]
+      consecutive2 = %w[A2 B2 C2 D2]
+      not_consecutive1 = %w[C1 C3 C4]
+      not_consecutive2 = %w[A2 C2 D2]
+      expect(@board.check_consecutive_coordinates(consecutive1)).to eq(true)
+      expect(@board.check_consecutive_coordinates(consecutive2)).to eq(true)
+      expect(@board.check_consecutive_coordinates(not_consecutive1)).to eq(false)
+      expect(@board.check_consecutive_coordinates(not_consecutive2)).to eq(false)
+    end
+  end
 end
+# rubocop:enable Metrics/BlockLength
