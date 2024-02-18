@@ -10,4 +10,8 @@ class Board
       end
     end
   end
+
+  def valid_coordinate?(coordinate)
+    coordinate.match?(/^[A-D][1-4]$/)
+  end
 end
