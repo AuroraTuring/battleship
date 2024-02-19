@@ -77,7 +77,7 @@ RSpec.describe Turn do
       16.times do
         @turn.get_computer_shot
       end
-    expect(get_player_board).to eq(expected_output)
+    expect(@turn.display_player_board).to eq(expected_output)
     end
 
   end
