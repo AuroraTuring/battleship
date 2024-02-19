@@ -1,4 +1,5 @@
-### Iteration 3 - Building the Game
+### Iteration 3 
+# Building the Game
 
 Now it’s time to put together the components you’ve built in the last two iterations to make a working game. You are allowed to build any additional classes or methods you think may be useful to accomplish this. However, this project will be assessed on the spec outlined in the last two iterations, so don’t remove any of the functionality from the Ship, Cell, or Board classes.
 
