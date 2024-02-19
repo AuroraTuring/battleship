@@ -20,5 +20,16 @@ class Turn
     @computer_board.render
   end
 
+  def get_computer_shot
+    blank_coordinates = []
+    @player_board.cells.each do |coordinate, cell|
+      if !cell.fired_upon?
+        blank_coordinates << coordinate
+      end
+    end
+    coordinate_to_fire_upon = blank_coordinates.sample
+    @player_board.cells[coordinate_to_fire_upon].fire_upon
+  end
+
 
 end
