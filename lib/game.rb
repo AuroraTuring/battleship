@@ -1,5 +1,8 @@
 require "./lib/turn"
 require "./lib/board"
+require "./lib/cell"
+require "./lib/ship"
+require "json"
 
 class Game
   def initialize
@@ -32,7 +35,14 @@ class Game
     game_loop
   end
 
-  def place_computer_ships; end
+  def place_computer_ships
+    possible_coords = JSON.parse(File.read("./ship_locations.json"))
+    cruiser_coords = possible_coords["cruiser"].sample
+    submarine_coords = possible_coords["submarine"].sample
+    @computer_board.place(Ship.new("Cruiser", 3), cruiser_coords)
+    @computer_board.place(Ship.new("Submarine", 2), submarine_coords)
+    puts "I have placed down a cruiser and a submarine!"
+  end
 
   def place_player_ships; end
 
