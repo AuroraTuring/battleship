@@ -40,8 +40,12 @@ class Game
     cruiser_coords = possible_coords["cruiser"].sample
     submarine_coords = possible_coords["submarine"].sample
     @computer_board.place(Ship.new("Cruiser", 3), cruiser_coords)
+    valid_submarine_coords = @computer_board.overlapping(submarine_coords)
+    until valid_submarine_coords
+      submarine_coords = possible_coords["submarine"].sample
+      valid_submarine_coords = @computer_board.overlapping(submarine_coords)
+    end
     @computer_board.place(Ship.new("Submarine", 2), submarine_coords)
-    puts "I have placed down a cruiser and a submarine!"
   end
 
   def place_player_ships; end
