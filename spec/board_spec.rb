@@ -37,8 +37,7 @@ RSpec.describe Board do
     it "knows ship length" do
       expect(@board.valid_placement?(@cruiser, %w[A1 A2])).to be false
       expect(@board.valid_placement?(@cruiser, %w[A1 A2 A3])).to be true
-      expect(@board.valid_placement?(@submarine,
-                                     %w[A2 A3 A4])).to be false
+      expect(@board.valid_placement?(@submarine, %w[A2 A3 A4])).to be false
       expect(@board.valid_placement?(@submarine, %w[A2 A3])).to be true
     end
 
