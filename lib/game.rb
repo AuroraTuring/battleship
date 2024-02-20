@@ -25,8 +25,18 @@ class Game
   end
 
   def start_game
-    puts "game started"
+    @player_board = Board.new
+    @computer_board = Board.new
+    place_computer_ships
+    place_player_ships
+    game_loop
   end
+
+  def place_computer_ships; end
+
+  def place_player_ships; end
+
+  def game_loop; end
 end
 
 Game.new.main_menu
