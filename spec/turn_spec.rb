@@ -21,45 +21,44 @@ RSpec.describe Turn do
 
   describe "#display_both_boards" do
     it "can dislay player board" do
-      @player_board.place(@cruiser, ["A1", "A2", "A3"])
+      @player_board.place(@cruiser, %w[A1 A2 A3])
       player_board = @turn.display_player_board
-      expected_output = "==============PLAYER BOARD==============\n" +
-                        "  1 2 3 4 \n" +
-                        "A S S S . \n" +
-                        "B . . . . \n" +
-                        "C . . . . \n" +
+      expected_output = "==============PLAYER BOARD==============\n" \
+                        "  1 2 3 4 \n" \
+                        "A S S S . \n" \
+                        "B . . . . \n" \
+                        "C . . . . \n" \
                         "D . . . . \n"
       expect(player_board).to eq(expected_output)
     end
 
     it "can display computer board" do
-      @computer_board.place(@submarine, ["B1", "B2"])
+      @computer_board.place(@submarine, %w[B1 B2])
       computer_board = @turn.display_computer_board
-      expected_output = "==============COMPUTER BOARD==============\n" +
-                        "  1 2 3 4 \n" +
-                        "A . . . . \n" +
-                        "B . . . . \n" +
-                        "C . . . . \n" +
+      expected_output = "==============COMPUTER BOARD==============\n" \
+                        "  1 2 3 4 \n" \
+                        "A . . . . \n" \
+                        "B . . . . \n" \
+                        "C . . . . \n" \
                         "D . . . . \n"
       expect(computer_board).to eq(expected_output)
     end
 
     it "can display both boards" do
-      @player_board.place(@cruiser, ["A1", "A2", "A3"])
-      @computer_board.place(@submarine, ["B1", "B2"])
+      @player_board.place(@cruiser, %w[A1 A2 A3])
+      @computer_board.place(@submarine, %w[B1 B2])
 
-      expected_output = "==============PLAYER BOARD==============\n" +
-                        "  1 2 3 4 \n" +
-                        "A S S S . \n" +
-                        "B . . . . \n" +
-                        "C . . . . \n" +
-                        "D . . . . \n" +
-
-                        "==============COMPUTER BOARD==============\n" +
-                        "  1 2 3 4 \n" +
-                        "A . . . . \n" +
-                        "B . . . . \n" +
-                        "C . . . . \n" +
+      expected_output = "==============PLAYER BOARD==============\n" \
+                        "  1 2 3 4 \n" \
+                        "A S S S . \n" \
+                        "B . . . . \n" \
+                        "C . . . . \n" \
+                        "D . . . . \n" \
+                        "==============COMPUTER BOARD==============\n" \
+                        "  1 2 3 4 \n" \
+                        "A . . . . \n" \
+                        "B . . . . \n" \
+                        "C . . . . \n" \
                         "D . . . . \n"
       expect(@turn.display_both_boards).to eq(expected_output)
     end
@@ -67,21 +66,17 @@ RSpec.describe Turn do
 
   describe "#get_computer_shot" do
     it "never fires on the same coordinate twice" do
-      expected_output = "==============PLAYER BOARD==============\n" +
-                        "  1 2 3 4 \n" +
-                        "A M M M M \n" +
-                        "B M M M M \n" +
-                        "C M M M M \n" +
+      expected_output = "==============PLAYER BOARD==============\n" \
+                        "  1 2 3 4 \n" \
+                        "A M M M M \n" \
+                        "B M M M M \n" \
+                        "C M M M M \n" \
                         "D M M M M \n"
 
       16.times do
         @turn.get_computer_shot
       end
-    expect(@turn.display_player_board).to eq(expected_output)
+      expect(@turn.display_player_board).to eq(expected_output)
     end
-
   end
-
-
-
 end
