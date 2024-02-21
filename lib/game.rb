@@ -144,5 +144,3 @@ class Game # rubocop:disable Metrics/ClassLength
     end
   end
 end
-
-Game.new
