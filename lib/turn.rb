@@ -7,6 +7,7 @@ class Turn
   # Methods are in alphabetical order
 
   def check_valid_shot(player_input)
+    player_input = player_input.upcase
     if valid_coordinate?(player_input)
       if @computer_board.cells[player_input].fired_upon?
         puts "You have already fired on that cell! Choose another one."

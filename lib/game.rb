@@ -162,6 +162,7 @@ class Game
   end
 
   def valid_placement?(ship_info, player_input)
+    player_input = player_input.upcase
     if !valid_coordinate_format?(ship_info, player_input)
       false
     else
@@ -173,10 +174,12 @@ class Game
   end
 
   def valid_play_or_quit(input)
+    input = input.downcase
     input.match?(/^(p|q)$/)
   end
 
   def valid_yes_or_no(input)
+    input = input.downcase
     input.match?(/^(y|n)$/)
   end
 end
