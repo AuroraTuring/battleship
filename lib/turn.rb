@@ -29,7 +29,11 @@ class Turn
   end
 
   def display_both_boards
-    puts display_player_board + display_computer_board
+    puts `clear`
+    puts display_player_board
+    puts ""
+    puts display_computer_board
+    puts ""
   end
 
   def display_computer_board
@@ -42,6 +46,7 @@ class Turn
 
   def show_computer_shot_results(fired_on_coordinate)
     hit_or_miss = @player_board.cells[fired_on_coordinate].hit? ? "hit" : "miss"
+    puts ""
     puts "I fired on cell #{fired_on_coordinate}. It's a #{hit_or_miss}!"
   end
 
@@ -53,7 +58,6 @@ class Turn
   def take_computer_shot
     coordinate_to_fire_upon = choose_random_unfired_coordinate
     @player_board.cells[coordinate_to_fire_upon].fire_upon
-    show_computer_shot_results(coordinate_to_fire_upon)
     coordinate_to_fire_upon
   end
 

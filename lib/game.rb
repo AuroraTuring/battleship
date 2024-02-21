@@ -34,14 +34,29 @@ class Game
     input.split(" ")
   end
 
+  def display_computer_turn(turn)
+    turn.display_both_boards
+    puts "Hmmm... let me think..."
+    sleep(2)
+    computer_coordinates = turn.take_computer_shot
+    turn.show_computer_shot_results(computer_coordinates)
+    sleep(3)
+    turn.display_both_boards
+    sleep(0.5)
+  end
+
+  def display_player_turn(turn)
+    player_coordinates = turn.take_player_shot
+    turn.display_both_boards
+    turn.show_player_shot_results(player_coordinates)
+    sleep(2)
+  end
+
   def game_loop
     while @game_in_progress
       turn = Turn.new(@player_board, @computer_board)
-      computer_coordinates = turn.take_computer_shot
-      turn.display_both_boards
-      turn.show_computer_shot_results(computer_coordinates)
-      player_coordinates = turn.take_player_shot
-      turn.show_player_shot_results(player_coordinates)
+      display_computer_turn(turn)
+      display_player_turn(turn)
       check_end_game
     end
     prompt_restart
@@ -59,12 +74,13 @@ class Game
     prompt_ship_placement(ship_info)
     valid_user_input, player_input = nil
     until valid_user_input
-      player_input = gets.chomp
+      player_input = gets.chomp.upcase
       valid_user_input = valid_placement?(ship_info, player_input)
-      unless valid_user_input
-        puts "\nInvalid coordinates. Write #{ship_info[1]} coordinates separated by a space.\n"
-        puts "#{@player_board.render(true)}\n"
-      end
+      next if valid_user_input
+
+      puts `clear`
+      puts "\nInvalid coordinates. Write #{ship_info[1]} coordinates separated by a space.\n"
+      puts "\n#{@player_board.render(true)}\n"
     end
     convert_input_to_coordinates(player_input)
   end
@@ -127,7 +143,11 @@ class Game
     puts "\nPlace your #{ship_info[0]}. The #{ship_info[0]} requires " \
          "#{ship_info[1]} adjacent coordinates.\nSeparate coordinates " \
          "with a space."
+    puts ""
+    puts "Your board:"
+    puts ""
     puts @player_board.render(true)
+    puts ""
   end
 
   def start_game
