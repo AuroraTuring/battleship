@@ -63,7 +63,7 @@ RSpec.describe Turn do
     it "cannot fire on coordinates that have already been fired upon" do
       @turn.take_computer_shot
       expect(@turn.check_valid_shot("A1")).to be true
-      allow(@turn).to receive(:get_player_input).and_return("A1")
+      allow(@turn).to receive(:receive_player_input).and_return("A1")
 
       @turn.take_player_shot(false)
       expect(@turn.check_valid_shot("A1")).to be false
@@ -107,5 +107,4 @@ RSpec.describe Turn do
       expect(fail2).to eq(false)
     end
   end
-
 end

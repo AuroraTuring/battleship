@@ -91,7 +91,7 @@ class Turn
     coordinate_to_fire_upon
   end
 
-  def get_player_input
+  def receive_player_input
     gets.chomp.upcase
   end
 
@@ -99,7 +99,7 @@ class Turn
     prompt_user_shot(computer_won)
     valid_shot, player_input = nil
     until valid_shot
-      player_input = get_player_input # put in its own method and mock/stub
+      player_input = receive_player_input
       valid_shot = check_valid_shot(player_input)
     end
     @computer_board.cells[player_input].fire_upon
