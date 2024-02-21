@@ -49,45 +49,45 @@ class Game # rubocop:disable Metrics/ClassLength
     sleep(3)
   end
 
-  def generate_computer_coordinates(ship_type)
-    coordinates = @possible_coordinates[ship_type].sample
+  def generate_computer_coordinates(ship_name)
+    coordinates = @possible_coordinates[ship_name].sample
     while @computer_board.overlapping(coordinates)
-      coordinates = @possible_coordinates[ship_type].sample
+      coordinates = @possible_coordinates[ship_name].sample
     end
     coordinates
   end
 
-  def prompt_ship_placement(ship_array)
+  def prompt_ship_placement(ship_info)
     puts `clear`
-    puts "\nPlace your #{ship_array[0]}. The #{ship_array[0]} requires #{ship_array[1]} " \
+    puts "\nPlace your #{ship_info[0]}. The #{ship_info[0]} requires #{ship_info[1]} " \
          "adjacent coordinates.\nSeparate coordinates with a space."
     puts @player_board.render(true)
   end
 
-  def generate_user_coordinates(ship_array)
-    prompt_ship_placement(ship_array)
+  def generate_user_coordinates(ship_info)
+    prompt_ship_placement(ship_info)
     valid_user_input, player_input = nil
     until valid_user_input
       player_input = gets.chomp
-      valid_user_input = valid_placement?(ship_array, player_input)
+      valid_user_input = valid_placement?(ship_info, player_input)
       unless valid_user_input
-        puts "\nInvalid coordinates. Write #{ship_array[1]} coordinates separated by a space.\n"
+        puts "\nInvalid coordinates. Write #{ship_info[1]} coordinates separated by a space.\n"
         puts "#{@player_board.render(true)}\n"
       end
     end
     convert_input_to_coordinates(player_input)
   end
 
-  def valid_placement?(ship_array, player_input)
+  def valid_placement?(ship_info, player_input)
     # This first conditional checks if the user typed n coordinates separated by
     # spaces, where n is the ship's length. If true, it runs the "else" section
-    if !player_input.match?(/^([A-D][1-4]\s){#{ship_array[1] - 1}}[A-D][1-4]$/)
+    if !player_input.match?(/^([A-D][1-4]\s){#{ship_info[1] - 1}}[A-D][1-4]$/)
       false
     else
       # It then checks whether the coordinates are a valid location using the
       # Board.valid_placement? method.
       @player_board.valid_placement?(
-        Ship.new(ship_array[0], ship_array[1]),
+        Ship.new(ship_info[0], ship_info[1]),
         convert_input_to_coordinates(player_input)
       )
     end
@@ -98,13 +98,13 @@ class Game # rubocop:disable Metrics/ClassLength
   end
 
   def place(board)
-    @ship_list.each do |ship_array|
+    @ship_list.each do |ship_info|
       coordinates = if board == @computer_board
-                      generate_computer_coordinates(ship_array[0])
+                      generate_computer_coordinates(ship_info[0])
                     else
-                      generate_user_coordinates(ship_array)
+                      generate_user_coordinates(ship_info)
                     end
-      board.place(Ship.new(ship_array[0], ship_array[1]), coordinates)
+      board.place(Ship.new(ship_info[0], ship_info[1]), coordinates)
     end
   end
 
