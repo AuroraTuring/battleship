@@ -77,4 +77,24 @@ RSpec.describe Turn do
       expect(@turn.display_player_board).to eq(expected_output)
     end
   end
+
+  describe "#check_valid_shot" do
+    it "cannot fire on coordinates that have already been fired upon" do
+      @turn.take_computer_shot
+      expect(@turn.check_valid_shot("A1")).to be true
+      allow(@turn).to receive(:get_player_input).and_return("A1")
+
+      @turn.take_player_shot(false)
+      expect(@turn.check_valid_shot("A1")).to be false
+      expected = "You have already fired on that cell! Choose another one.\n"
+      expect { @turn.check_valid_shot("A1") }.to output(expected).to_stdout
+    end
+
+    it "when invalid coordinates are entered, it puts a statement to return false" do
+      @turn.take_computer_shot
+      expect(@turn.check_valid_shot("A8")).to be false
+      expected = "Please enter a valid coordinate between A1 and D4.\n"
+      expect { @turn.check_valid_shot("A8") }.to output(expected).to_stdout
+    end
+  end
 end
