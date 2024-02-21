@@ -142,5 +142,19 @@ RSpec.describe Game do
       expect(fail1).to eq(false)
       expect(fail2).to eq(false)
     end
+    it "can identify valid yes or no" do
+      pass1 = @game.valid_play_or_quit("y")
+      pass2 = @game.valid_play_or_quit("Y")
+      pass3 = @game.valid_play_or_quit("n")
+      pass4 = @game.valid_play_or_quit("N")
+      fail1 = @game.valid_play_or_quit("")
+      fail2 = @game.valid_play_or_quit("asdfjk")
+      expect(pass1).to eq(true)
+      expect(pass2).to eq(true)
+      expect(pass3).to eq(true)
+      expect(pass4).to eq(true)
+      expect(fail1).to eq(false)
+      expect(fail2).to eq(false)
+    end
   end
 end
