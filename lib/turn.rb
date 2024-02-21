@@ -37,22 +37,29 @@ class Turn
     coordinate_to_fire_upon
   end
 
-  def take_player_shot # rubocop:disable Metrics/MethodLength
+  def take_player_shot
     puts "\nIt's your turn! Choose a coordinate to fire upon."
     valid_shot, player_input = nil
     until valid_shot
-      player_input = gets.chomp
-      if valid_coordinate?(player_input)
-        valid_shot = !@computer_board.cells[player_input].fired_upon?
-        unless valid_shot
-          puts "You have already fired on that cell! Choose another one."
-        end
-      else
-        puts "Please enter a valid coordinate between A1 and D4."
-      end
+      player_input = gets.chomp.upcase
+      valid_shot = check_valid_shot(player_input)
     end
     @computer_board.cells[player_input].fire_upon
     player_input
+  end
+
+  def check_valid_shot(player_input)
+    if valid_coordinate?(player_input)
+      if @computer_board.cells[player_input].fired_upon?
+        puts "You have already fired on that cell! Choose another one."
+        false
+      else
+        true
+      end
+    else
+      puts "Please enter a valid coordinate between A1 and D4."
+      false
+    end
   end
 
   def valid_coordinate?(input)
