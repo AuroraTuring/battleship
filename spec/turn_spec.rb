@@ -10,11 +10,11 @@ RSpec.describe Turn do
   end
 
   describe "#initialize" do
-    it "can initialize" do
+    it "can initialize with attributes" do
       expect(@turn).to be_a(Turn)
+      expect(@turn.computer_board).to eq(@computer_board)
+      expect(@turn.player_board).to eq(@player_board)
     end
-
-    # Test that it has @turn.computer_board and @turn.player_board
   end
 
   describe "#display_both_boards" do
