@@ -61,6 +61,11 @@ RSpec.describe Game do
       turn = Turn.new(@player_board, @computer_board)
       @game.display_computer_turn(turn)
     end
+    it "prompts ship placement" do
+      @game.modify_boards(@player_board, @computer_board)
+      @player_board.place(@cruiser, %w[A1 A2 A3])
+      @game.prompt_ship_placement(["submarine", 2])
+    end
   end
 
   describe "#handling input" do
@@ -83,6 +88,20 @@ RSpec.describe Game do
       computer_ships = @game.list_ships("computer")
       expect(player_ships).to eq([@cruiser, @submarine])
       expect(computer_ships).to eq([player_ships, computer_ships])
+    end
+  end
+
+  describe "#spec helper methods" do
+    it "can modify game boards" do
+      @game.modify_boards(@player_board, @computer_board)
+      expect(@game.player_board).to eq(@player_board)
+      expect(@game.computer_board).to eq(@computer_board)
+    end
+    it "can modify game in progress" do
+      @game.modify_game_in_progress(true)
+      expect(@game.game_in_progress).to eq(true)
+      @game.modify_game_in_progress(false)
+      expect(@game.game_in_progress).to eq(false)
     end
   end
 end
