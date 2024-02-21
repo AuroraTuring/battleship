@@ -32,7 +32,9 @@ class Board
     true
   end
 
-  # Returns false if either the first characters are not equivalent or the second characters are not equivalent. Also returns false if all of the coordinates are the same.
+  # Returns false if either the first characters are not equivalent or the
+  # second characters are not equivalent. Also returns false if all of the
+  # coordinates are the same.
   def check_coordinate_format(coordinates)
     coordinates.each_cons(2) do |coordinate_pair|
       unless (
