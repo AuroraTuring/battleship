@@ -8,13 +8,6 @@ class Turn
 
   # Methods are in alphabetical order
 
-  # 1. Fire on a coordinate
-  # 2. Try to fire again on that coordinate
-  # 3. Check that it returns false
-  # 4. Try to fire on a different coordinate
-  # 5. Check that it returns true
-  # 6. Try to fire on an invalid coordinate (A8)
-  # 7. Check that it returns false
   def check_valid_shot(player_input)
     player_input = player_input.upcase
     if valid_coordinate?(player_input)
@@ -30,13 +23,6 @@ class Turn
     end
   end
 
-  # Needs unit test
-  # 1. Take a shot on A1
-  # 2. Run 100 choose_random_unfired_coordinate
-  # 3. Return value never equals A1
-  # Extra credit:
-  # 4. Create empty array, append coordinate to array each iteration
-  # 5. Check that they are not all the same coordinate
   def choose_random_unfired_coordinate
     not_fired_upon_coordinates = []
     @player_board.cells.each do |coordinate, cell|
@@ -66,7 +52,6 @@ class Turn
 
   # Requires 2 tests - one for computer_won == true
   # and one for computer_won == false
-  # Check puts statements for each case
   def prompt_user_shot(computer_won = false)
     if computer_won
       puts "The computer sank all your ships. You have one more shot to tie the game!"
@@ -77,7 +62,6 @@ class Turn
   end
 
   # Needs 3 tests - one for miss, one for hit, one for sink
-  # Check puts statements for each case
   def show_computer_shot_results(fired_on_coordinate)
     hit_or_miss = @player_board.cells[fired_on_coordinate].hit? ? "hit" : "miss"
     puts ""
@@ -91,7 +75,6 @@ class Turn
   end
 
   # Needs 3 tests - one for miss, one for hit, one for sink
-  # Check puts statements for each case
   def show_player_shot_results(fired_on_coordinate)
     hit_or_miss = @computer_board.cells[fired_on_coordinate].hit? ? "hit" : "miss"
     puts ""
