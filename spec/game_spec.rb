@@ -104,4 +104,17 @@ RSpec.describe Game do
       expect(@game.game_in_progress).to eq(false)
     end
   end
+
+  describe "#validation methods" do
+    it "can identify valid coordinate format" do
+      is_valid = @game.valid_coordinate_format?(["submarine"], "A1 A2")
+      expect(is_valid).to eq(true)
+      is_valid = @game.valid_coordinate_format?(["submarine"], "A1 A2 A3")
+      expect(is_valid).to eq(false)
+      is_valid = @game.valid_coordinate_format?(["submarine"], "A0 A1")
+      expect(is_valid).to eq(false)
+      is_valid = @game.valid_coordinate_format?(["submarine"], "A1, A2")
+      expect(is_valid).to eq(false)
+    end
+  end
 end
