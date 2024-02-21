@@ -17,8 +17,7 @@ class Game # rubocop:disable Metrics/ClassLength
   end
 
   def main_menu
-    puts "Welcome to BATTLESHIP!"
-    puts "Press 'p' to play or 'q' to quit"
+    puts "Welcome to BATTLESHIP!\nPress 'p' to play or 'q' to quit"
     play_or_quit, valid_input = nil
     until valid_input
       play_or_quit = gets.chomp.downcase
@@ -54,8 +53,9 @@ class Game # rubocop:disable Metrics/ClassLength
 
   def prompt_ship_placement(ship_info)
     puts `clear`
-    puts "\nPlace your #{ship_info[0]}. The #{ship_info[0]} requires #{ship_info[1]} " \
-         "adjacent coordinates.\nSeparate coordinates with a space."
+    puts "\nPlace your #{ship_info[0]}. The #{ship_info[0]} requires " \
+         "#{ship_info[1]} adjacent coordinates.\nSeparate coordinates " \
+         "with a space."
     puts @player_board.render(true)
   end
 
