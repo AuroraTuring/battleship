@@ -116,5 +116,17 @@ RSpec.describe Game do
       is_valid = @game.valid_coordinate_format?(["submarine"], "A1, A2")
       expect(is_valid).to eq(false)
     end
+    it "can identify valid placement" do
+      @game.modify_boards(@player_board, @computer_board)
+      @player_board.place(@cruiser, %w[A1 A2 A3])
+      is_valid = @game.valid_placement?(["submarine", 2], "B1 B2")
+      expect(is_valid).to eq(true)
+      is_valid = @game.valid_placement?(["submarine", 2], "A1 B1")
+      expect(is_valid).to eq(false)
+      is_valid = @game.valid_placement?(["submarine", 2], "B1 B2 B3")
+      expect(is_valid).to eq(false)
+      is_valid = @game.valid_placement?(["submarine", 2], "B0 B1")
+      expect(is_valid).to eq(false)
+    end
   end
 end
