@@ -20,6 +20,14 @@ class Turn
     end
   end
 
+  def choose_random_unfired_coordinate
+    not_fired_upon_coordinates = []
+    @player_board.cells.each do |coordinate, cell|
+      not_fired_upon_coordinates << coordinate unless cell.fired_upon?
+    end
+    not_fired_upon_coordinates.sample
+  end
+
   def display_both_boards
     puts display_player_board + display_computer_board
   end
@@ -43,11 +51,7 @@ class Turn
   end
 
   def take_computer_shot
-    not_fired_upon_coordinates = []
-    @player_board.cells.each do |coordinate, cell|
-      not_fired_upon_coordinates << coordinate unless cell.fired_upon?
-    end
-    coordinate_to_fire_upon = not_fired_upon_coordinates.sample
+    coordinate_to_fire_upon = choose_random_unfired_coordinate
     @player_board.cells[coordinate_to_fire_upon].fire_upon
     show_computer_shot_results(coordinate_to_fire_upon)
     coordinate_to_fire_upon
