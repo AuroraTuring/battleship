@@ -1,9 +1,9 @@
 require "./spec/spec_helper"
 
-# rubocop:disable Metrics/BlockLength
 RSpec.describe Ship do
   before(:each) do
     @cruiser = Ship.new("Cruiser", 3)
+    @submarine = Ship.new("Submarine", 2)
   end
 
   describe "#initialize" do
@@ -12,6 +12,10 @@ RSpec.describe Ship do
       expect(@cruiser.name).to eq("Cruiser")
       expect(@cruiser.length).to eq(3)
       expect(@cruiser.health).to eq(3)
+      expect(@submarine).to be_an_instance_of(Ship)
+      expect(@submarine.name).to eq("Submarine")
+      expect(@submarine.length).to eq(2)
+      expect(@submarine.health).to eq(2)
     end
   end
 
