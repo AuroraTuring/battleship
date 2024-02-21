@@ -45,9 +45,12 @@ class Game
     sleep(0.5)
   end
 
-  def display_player_turn(turn)
+  def display_player_turn(turn, computer_won)
     player_coordinates = turn.take_player_shot
     turn.display_both_boards
+    if computer_won
+      puts "The computer sank all your ships. You have one more shot to tie the game!"
+    end
     turn.show_player_shot_results(player_coordinates)
     sleep(2)
   end
@@ -56,7 +59,8 @@ class Game
     while @game_in_progress
       turn = Turn.new(@player_board, @computer_board)
       display_computer_turn(turn)
-      display_player_turn(turn)
+      check_end_game
+      display_player_turn(turn, @computer_wins)
       check_end_game
     end
     prompt_restart

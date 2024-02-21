@@ -48,11 +48,24 @@ class Turn
     hit_or_miss = @player_board.cells[fired_on_coordinate].hit? ? "hit" : "miss"
     puts ""
     puts "I fired on cell #{fired_on_coordinate}. It's a #{hit_or_miss}!"
+    unless hit_or_miss == "hit" && @player_board.cells[fired_on_coordinate].ship.sunk?
+      return
+    end
+
+    puts ""
+    puts "I sunk your #{@player_board.cells[fired_on_coordinate].ship.name}!"
   end
 
   def show_player_shot_results(fired_on_coordinate)
     hit_or_miss = @computer_board.cells[fired_on_coordinate].hit? ? "hit" : "miss"
+    puts ""
     puts "You fired on cell #{fired_on_coordinate}. It's a #{hit_or_miss}!"
+    unless hit_or_miss == "hit" && @computer_board.cells[fired_on_coordinate].ship.sunk?
+      return
+    end
+
+    puts ""
+    puts "You sunk my #{@computer_board.cells[fired_on_coordinate].ship.name}!"
   end
 
   def take_computer_shot
