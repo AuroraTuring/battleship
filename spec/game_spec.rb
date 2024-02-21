@@ -144,12 +144,12 @@ RSpec.describe Game do
       expect(fail2).to eq(false)
     end
     it "can identify valid yes or no" do
-      pass1 = @game.valid_play_or_quit("y")
-      pass2 = @game.valid_play_or_quit("Y")
-      pass3 = @game.valid_play_or_quit("n")
-      pass4 = @game.valid_play_or_quit("N")
-      fail1 = @game.valid_play_or_quit("")
-      fail2 = @game.valid_play_or_quit("asdfjk")
+      pass1 = @game.valid_yes_or_no("y")
+      pass2 = @game.valid_yes_or_no("Y")
+      pass3 = @game.valid_yes_or_no("n")
+      pass4 = @game.valid_yes_or_no("N")
+      fail1 = @game.valid_yes_or_no("")
+      fail2 = @game.valid_yes_or_no("asdfjk")
       expect(pass1).to eq(true)
       expect(pass2).to eq(true)
       expect(pass3).to eq(true)
