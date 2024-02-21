@@ -1,9 +1,3 @@
-require "./lib/turn"
-require "./lib/board"
-require "./lib/cell"
-require "./lib/ship"
-require "json"
-
 class Game
   def initialize
     @player_board = nil
