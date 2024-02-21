@@ -4,8 +4,32 @@ class Turn
     @computer_board = computer_board
   end
 
+  # Methods are in alphabetical order
+
+  def check_valid_shot(player_input)
+    if valid_coordinate?(player_input)
+      if @computer_board.cells[player_input].fired_upon?
+        puts "You have already fired on that cell! Choose another one."
+        false
+      else
+        true
+      end
+    else
+      puts "Please enter a valid coordinate between A1 and D4."
+      false
+    end
+  end
+
   def display_both_boards
     puts display_player_board + display_computer_board
+  end
+
+  def display_computer_board
+    "==============COMPUTER BOARD==============\n#{@computer_board.render}"
+  end
+
+  def display_player_board
+    "==============PLAYER BOARD==============\n#{@player_board.render(true)}"
   end
 
   def show_computer_shot_results(fired_on_coordinate)
@@ -18,20 +42,12 @@ class Turn
     puts "You fired on cell #{fired_on_coordinate}. It's a #{hit_or_miss}!"
   end
 
-  def display_player_board
-    "==============PLAYER BOARD==============\n#{@player_board.render(true)}"
-  end
-
-  def display_computer_board
-    "==============COMPUTER BOARD==============\n#{@computer_board.render}"
-  end
-
   def take_computer_shot
-    blank_coordinates = []
+    not_fired_upon_coordinates = []
     @player_board.cells.each do |coordinate, cell|
-      blank_coordinates << coordinate unless cell.fired_upon?
+      not_fired_upon_coordinates << coordinate unless cell.fired_upon?
     end
-    coordinate_to_fire_upon = blank_coordinates.sample
+    coordinate_to_fire_upon = not_fired_upon_coordinates.sample
     @player_board.cells[coordinate_to_fire_upon].fire_upon
     show_computer_shot_results(coordinate_to_fire_upon)
     coordinate_to_fire_upon
@@ -46,20 +62,6 @@ class Turn
     end
     @computer_board.cells[player_input].fire_upon
     player_input
-  end
-
-  def check_valid_shot(player_input)
-    if valid_coordinate?(player_input)
-      if @computer_board.cells[player_input].fired_upon?
-        puts "You have already fired on that cell! Choose another one."
-        false
-      else
-        true
-      end
-    else
-      puts "Please enter a valid coordinate between A1 and D4."
-      false
-    end
   end
 
   def valid_coordinate?(input)
