@@ -155,14 +155,16 @@ class Game
     game_loop
   end
 
+  # This checks if the user typed n coordinates separated by
+  # spaces, where n is the ship's length.
+  def valid_coordinate_format?(ship_info, player_input)
+    player_input.match?(/^([A-D][1-4]\s){#{ship_info[1] - 1}}[A-D][1-4]$/)
+  end
+
   def valid_placement?(ship_info, player_input)
-    # This first conditional checks if the user typed n coordinates separated by
-    # spaces, where n is the ship's length. If true, it runs the "else" section
-    if !player_input.match?(/^([A-D][1-4]\s){#{ship_info[1] - 1}}[A-D][1-4]$/)
+    if !valid_coordinate_format?(ship_info, player_input)
       false
     else
-      # It then checks whether the coordinates are a valid location using the
-      # Board.valid_placement? method.
       @player_board.valid_placement?(
         Ship.new(ship_info[0], ship_info[1]),
         convert_input_to_coordinates(player_input)
