@@ -115,13 +115,16 @@ class Turn
     coordinate_to_fire_upon
   end
 
+  def get_player_input
+    gets.chomp.upcase
+  end
   # Test:
   # Low-priority test due to user input
   def take_player_shot(computer_won)
     prompt_user_shot(computer_won)
     valid_shot, player_input = nil
     until valid_shot
-      player_input = gets.chomp.upcase # put in its own method and mock/stub
+      player_input = get_player_input # put in its own method and mock/stub
       valid_shot = check_valid_shot(player_input)
     end
     @computer_board.cells[player_input].fire_upon
