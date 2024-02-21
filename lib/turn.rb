@@ -44,6 +44,15 @@ class Turn
     "==============PLAYER BOARD==============\n#{@player_board.render(true)}"
   end
 
+  def prompt_user_shot(computer_won)
+    if computer_won
+      puts "The computer sank all your ships. You have one more shot to tie the game!"
+      puts "Choose a coordinate to fire upon."
+    else
+      puts "\nIt's your turn! Choose a coordinate to fire upon."
+    end
+  end
+
   def show_computer_shot_results(fired_on_coordinate)
     hit_or_miss = @player_board.cells[fired_on_coordinate].hit? ? "hit" : "miss"
     puts ""
@@ -75,12 +84,7 @@ class Turn
   end
 
   def take_player_shot(computer_won)
-    if computer_won
-      puts "The computer sank all your ships. You have one more shot to tie the game!"
-      puts "Choose a coordinate to fire upon."
-    else
-      puts "\nIt's your turn! Choose a coordinate to fire upon."
-    end
+    prompt_user_shot(computer_won)
     valid_shot, player_input = nil
     until valid_shot
       player_input = gets.chomp.upcase
