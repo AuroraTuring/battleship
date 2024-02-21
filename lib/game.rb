@@ -11,6 +11,8 @@ class Game # rubocop:disable Metrics/ClassLength
     @game_in_progress = false
     @ship_list = [["cruiser", 3], ["submarine", 2]]
     @possible_coordinates = JSON.parse(File.read("./ship_locations.json"))
+    @player_wins = false
+    @computer_wins = false
     main_menu
   end
 
@@ -109,6 +111,29 @@ class Game # rubocop:disable Metrics/ClassLength
       turn.show_player_shot_results(player_coordinates)
       check_end_game
     end
+    prompt_restart
+  end
+
+  def prompt_restart
+    if @player_wins && @computer_wins
+      puts "It's a tie! Would you like to play again? (y/n)"
+    elsif @player_wins
+      puts "You won! Would you like to play again? (y/n)"
+    elsif @computer_wins
+      puts "The computer won! Would you like to play again? (y/n)"
+    end
+    parse_restart_input
+  end
+
+  def parse_restart_input
+    restart_input = nil
+    valid_input = false
+    until valid_input
+      restart_input = gets.chomp.downcase
+      valid_input = restart_input.match?(/^(y|n)$/)
+      puts "Invalid input. Please enter 'y' or 'n'." unless valid_input
+    end
+    restart_input == "y" ? start_game : return
   end
 
   def list_ships(player_or_computer)
@@ -121,15 +146,8 @@ class Game # rubocop:disable Metrics/ClassLength
   end
 
   def check_end_game
-    player_wins = list_ships("computer").all?(&:sunk?)
-    computer_wins = list_ships("player").all?(&:sunk?)
-    @game_in_progress = false if player_wins || computer_wins
-    if player_wins && computer_wins
-      puts "It's a tie! Would you like to play again?"
-    elsif player_wins
-      puts "You won! Would you like to play again?"
-    elsif computer_wins
-      puts "The computer won! Would you like to play again?"
-    end
+    @player_wins = list_ships("computer").all?(&:sunk?)
+    @computer_wins = list_ships("player").all?(&:sunk?)
+    @game_in_progress = false if @player_wins || @computer_wins
   end
 end
