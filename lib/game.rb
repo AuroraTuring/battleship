@@ -6,6 +6,9 @@
 # Arbitrary number of cells
 # More ships to play with
 class Game
+  attr_reader :player_board, :computer_board, :game_in_progress,
+              :player_wins, :computer_wins
+
   def initialize
     @player_board = nil
     @computer_board = nil
@@ -160,6 +163,17 @@ class Game
     computer_has_placed_ships_text # return text instead of puts in method
     place(@player_board)
     game_loop
+  end
+
+  # Used for testing purposes
+  def modify_boards(player_board, computer_board)
+    @player_board = player_board
+    @computer_board = computer_board
+  end
+
+  # Used for testing purposes
+  def modify_game_in_progress(in_progress)
+    @game_in_progress = in_progress
   end
 
   # This checks if the user typed n coordinates separated by
