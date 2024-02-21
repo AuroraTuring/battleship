@@ -67,4 +67,20 @@ RSpec.describe Game do
       expect(coords_array).to eq(%w[A1 A2 A3])
     end
   end
+
+  describe "#listing ships" do
+    it "can list ships on the board" do
+      @game.modify_boards(@player_board, @computer_board)
+      @player_board.place(@cruiser, %w[A1 A2 A3])
+      @player_board.place(@submarine, %w[B1 B2])
+      comp_cruiser = Ship.new("cruiser", 3)
+      comp_submarine = Ship.new("submarine")
+      @computer_board.place(comp_cruiser, %w[A1 A2 A3])
+      @computer_board.place(comp_submarine, %w[B1 B2])
+      player_ships = @game.list_ships("player")
+      computer_ships = @game.list_ships("computer")
+      expect(player_ships).to eq([@cruiser, @submarine])
+      expect(computer_ships).to eq([player_ships, computer_ships])
+    end
+  end
 end
