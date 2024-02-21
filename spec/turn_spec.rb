@@ -81,8 +81,6 @@ RSpec.describe Turn do
 
   describe "#choose_random_unfired_coordinate" do
     it "will choose a coordinate that has not been fired upon" do
-      # letter a-d
-      # and number 1-4
       cells_fired_upon = []
       @player_board.cells["A1"].fire_upon
       100.times do
@@ -93,4 +91,21 @@ RSpec.describe Turn do
       expect(cells_fired_upon.uniq.size > 1).to be true
     end
   end
+
+  describe "valid_coordinate?()" do
+    it "checks for valid coordinates" do
+      valid1 = @turn.valid_coordinate?("A1")
+      valid2 = @turn.valid_coordinate?("a1")
+      valid3 = @turn.valid_coordinate?("d4")
+      fail1 = @turn.valid_coordinate?("A8")
+      fail2 = @turn.valid_coordinate?("1d")
+
+      expect(valid1).to eq(true)
+      expect(valid2).to eq(true)
+      expect(valid3).to eq(true)
+      expect(fail1).to eq(false)
+      expect(fail2).to eq(false)
+    end
+  end
+
 end
