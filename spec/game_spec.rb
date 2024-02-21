@@ -45,6 +45,7 @@ RSpec.describe Game do
       @player_board.cells["A1"].fire_upon
       @player_board.cells["A2"].fire_upon
       @player_board.cells["A3"].fire_upon
+      @game.check_end_game
       expect(@game.game_in_progress).to eq(false)
     end
   end
@@ -81,13 +82,13 @@ RSpec.describe Game do
       @player_board.place(@cruiser, %w[A1 A2 A3])
       @player_board.place(@submarine, %w[B1 B2])
       comp_cruiser = Ship.new("cruiser", 3)
-      comp_submarine = Ship.new("submarine")
+      comp_submarine = Ship.new("submarine", 2)
       @computer_board.place(comp_cruiser, %w[A1 A2 A3])
       @computer_board.place(comp_submarine, %w[B1 B2])
       player_ships = @game.list_ships("player")
       computer_ships = @game.list_ships("computer")
       expect(player_ships).to eq([@cruiser, @submarine])
-      expect(computer_ships).to eq([player_ships, computer_ships])
+      expect(computer_ships).to eq([comp_cruiser, comp_submarine])
     end
   end
 
@@ -107,13 +108,13 @@ RSpec.describe Game do
 
   describe "#validation methods" do
     it "can identify valid coordinate format" do
-      is_valid = @game.valid_coordinate_format?(["submarine"], "A1 A2")
+      is_valid = @game.valid_coordinate_format?(["submarine", 2], "A1 A2")
       expect(is_valid).to eq(true)
-      is_valid = @game.valid_coordinate_format?(["submarine"], "A1 A2 A3")
+      is_valid = @game.valid_coordinate_format?(["submarine", 2], "A1 A2 A3")
       expect(is_valid).to eq(false)
-      is_valid = @game.valid_coordinate_format?(["submarine"], "A0 A1")
+      is_valid = @game.valid_coordinate_format?(["submarine", 2], "A0 A1")
       expect(is_valid).to eq(false)
-      is_valid = @game.valid_coordinate_format?(["submarine"], "A1, A2")
+      is_valid = @game.valid_coordinate_format?(["submarine", 2], "A1, A2")
       expect(is_valid).to eq(false)
     end
     it "can identify valid placement" do
