@@ -36,8 +36,15 @@ class Game # rubocop:disable Metrics/ClassLength
     @player_board = Board.new
     @computer_board = Board.new
     place(@computer_board)
+    computer_has_placed_ships_text
     place(@player_board)
     game_loop
+  end
+
+  def computer_has_placed_ships_text
+    puts `clear`
+    puts "I have laid out my ships on the grid. Get ready to place your ships!"
+    sleep(3)
   end
 
   def generate_computer_coordinates(ship_type)
@@ -81,7 +88,7 @@ class Game # rubocop:disable Metrics/ClassLength
     input.split(" ")
   end
 
-  def place(board) # rubocop:disable Metrics/MethodLength
+  def place(board)
     @ship_list.each do |ship|
       coordinates = if board == @computer_board
                       generate_computer_coordinates(ship[0])
@@ -90,11 +97,6 @@ class Game # rubocop:disable Metrics/ClassLength
                     end
       board.place(Ship.new(ship[0], ship[1]), coordinates)
     end
-    return unless board == @computer_board
-
-    puts `clear`
-    puts "I have laid out my ships on the grid. Get ready to place your ships!"
-    sleep(3)
   end
 
   def game_loop
