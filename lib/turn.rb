@@ -31,7 +31,6 @@ class Turn
     not_fired_upon_coordinates.sample
   end
 
-  # Has test
   def display_both_boards
     puts `clear`
     puts display_player_board
@@ -40,18 +39,14 @@ class Turn
     puts ""
   end
 
-  # Has test
   def display_computer_board
     "==============COMPUTER BOARD==============\n#{@computer_board.render}"
   end
 
-  # Has test
   def display_player_board
     "==============PLAYER BOARD==============\n#{@player_board.render(true)}"
   end
 
-  # Requires 2 tests - one for computer_won == true
-  # and one for computer_won == false
   def prompt_user_shot(computer_won = false)
     if computer_won
       puts "The computer sank all your ships. You have one more shot to tie the game!"
@@ -61,7 +56,6 @@ class Turn
     end
   end
 
-  # Needs 3 tests - one for miss, one for hit, one for sink
   def show_computer_shot_results(fired_on_coordinate)
     hit_or_miss = @player_board.cells[fired_on_coordinate].hit? ? "hit" : "miss"
     puts ""
@@ -74,7 +68,6 @@ class Turn
     puts "I sunk your #{@player_board.cells[fired_on_coordinate].ship.name}!"
   end
 
-  # Needs 3 tests - one for miss, one for hit, one for sink
   def show_player_shot_results(fired_on_coordinate)
     hit_or_miss = @computer_board.cells[fired_on_coordinate].hit? ? "hit" : "miss"
     puts ""
@@ -101,8 +94,7 @@ class Turn
   def get_player_input
     gets.chomp.upcase
   end
-  # Test:
-  # Low-priority test due to user input
+
   def take_player_shot(computer_won)
     prompt_user_shot(computer_won)
     valid_shot, player_input = nil
@@ -114,9 +106,6 @@ class Turn
     player_input
   end
 
-  # Test:
-  # check that turn.valid_coordinate?(text) is true for coordinates like A1, B3,
-  # etc, and is not valid for coordinates like A0, 33, AA1, A1 with a space, etc
   def valid_coordinate?(input)
     input = input.upcase
     input.match?(/^[A-Z][1-4]$/)
