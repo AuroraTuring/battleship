@@ -111,29 +111,18 @@ class Game # rubocop:disable Metrics/ClassLength
     end
   end
 
-  def list_all_player_ships
-    player_ships = []
-    @player_board.cells.each_value do |cell|
-      if !cell.empty? && !player_ships.include?(cell.ship)
-        player_ships << cell.ship
-      end
+  def list_ships(player_or_computer)
+    ships = []
+    board = player_or_computer == "player" ? @player_board : @computer_board
+    board.cells.each_value do |cell|
+      ships << cell.ship if !cell.empty? && !ships.include?(cell.ship)
     end
-    player_ships
-  end
-
-  def list_all_computer_ships
-    computer_ships = []
-    @computer_board.cells.each_value do |cell|
-      if !cell.empty? && !computer_ships.include?(cell.ship)
-        computer_ships << cell.ship
-      end
-    end
-    computer_ships
+    ships
   end
 
   def check_end_game
-    player_wins = list_all_computer_ships.all?(&:sunk?)
-    computer_wins = list_all_player_ships.all?(&:sunk?)
+    player_wins = list_ships("computer").all?(&:sunk?)
+    computer_wins = list_ships("player").all?(&:sunk?)
     @game_in_progress = false if player_wins || computer_wins
     if player_wins && computer_wins
       puts "It's a tie! Would you like to play again?"
