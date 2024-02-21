@@ -38,7 +38,8 @@ RSpec.describe Game do
       @game.modify_boards(@player_board, @computer_board)
       @game.modify_game_in_progress(true)
       @player_board.place(@cruiser, %w[A1 A2 A3])
-      @computer_board.place(@cruiser, %w[B1 B2 B3])
+      comp_cruiser = Ship.new("cruiser", 3)
+      @computer_board.place(comp_cruiser, %w[B1 B2 B3])
       @game.check_end_game
       expect(@game.game_in_progress).to eq(true)
       @player_board.cells["A1"].fire_upon
@@ -55,7 +56,8 @@ RSpec.describe Game do
     it "displays the computer's turn" do
       @game.modify_boards(@player_board, @computer_board)
       @player_board.place(@cruiser, %w[A1 A2 A3])
-      @computer_board.place(@cruiser, %w[B1 B2 B3])
+      comp_cruiser = Ship.new("cruiser", 3)
+      @computer_board.place(comp_cruiser, %w[B1 B2 B3])
       turn = Turn.new(@player_board, @computer_board)
       @game.display_computer_turn(turn)
     end
