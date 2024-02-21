@@ -57,37 +57,37 @@ class Game # rubocop:disable Metrics/ClassLength
     coordinates
   end
 
-  def prompt_ship_placement(ship)
+  def prompt_ship_placement(ship_array)
     puts `clear`
-    puts "\nPlace your #{ship[0]}. The #{ship[0]} requires #{ship[1]} " \
+    puts "\nPlace your #{ship_array[0]}. The #{ship_array[0]} requires #{ship_array[1]} " \
          "adjacent coordinates.\nSeparate coordinates with a space."
     puts @player_board.render(true)
   end
 
-  def generate_user_coordinates(ship)
-    prompt_ship_placement(ship)
+  def generate_user_coordinates(ship_array)
+    prompt_ship_placement(ship_array)
     valid_user_input, player_input = nil
     until valid_user_input
       player_input = gets.chomp
-      valid_user_input = valid_placement?(ship, player_input)
+      valid_user_input = valid_placement?(ship_array, player_input)
       unless valid_user_input
-        puts "\nInvalid coordinates. Write #{ship[1]} coordinates separated by a space.\n"
+        puts "\nInvalid coordinates. Write #{ship_array[1]} coordinates separated by a space.\n"
         puts "#{@player_board.render(true)}\n"
       end
     end
     convert_input_to_coordinates(player_input)
   end
 
-  def valid_placement?(ship, player_input)
+  def valid_placement?(ship_array, player_input)
     # This first conditional checks if the user typed n coordinates separated by
     # spaces, where n is the ship's length. If true, it runs the "else" section
-    if !player_input.match?(/^([A-D][1-4]\s){#{ship[1] - 1}}[A-D][1-4]$/)
+    if !player_input.match?(/^([A-D][1-4]\s){#{ship_array[1] - 1}}[A-D][1-4]$/)
       false
     else
       # It then checks whether the coordinates are a valid location using the
       # Board.valid_placement? method.
       @player_board.valid_placement?(
-        Ship.new(ship[0], ship[1]),
+        Ship.new(ship_array[0], ship_array[1]),
         convert_input_to_coordinates(player_input)
       )
     end
@@ -98,13 +98,13 @@ class Game # rubocop:disable Metrics/ClassLength
   end
 
   def place(board)
-    @ship_list.each do |ship|
+    @ship_list.each do |ship_array|
       coordinates = if board == @computer_board
-                      generate_computer_coordinates(ship[0])
+                      generate_computer_coordinates(ship_array[0])
                     else
-                      generate_user_coordinates(ship)
+                      generate_user_coordinates(ship_array)
                     end
-      board.place(Ship.new(ship[0], ship[1]), coordinates)
+      board.place(Ship.new(ship_array[0], ship_array[1]), coordinates)
     end
   end
 
