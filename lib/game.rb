@@ -16,7 +16,7 @@ class Game # rubocop:disable Metrics/ClassLength
     main_menu
   end
 
-  def main_menu # rubocop:disable Metrics/MethodLength
+  def main_menu
     puts "Welcome to BATTLESHIP!"
     puts "Press 'p' to play or 'q' to quit"
     play_or_quit = ""
@@ -57,13 +57,16 @@ class Game # rubocop:disable Metrics/ClassLength
     coordinates
   end
 
-  def generate_user_coordinates(ship) # rubocop:disable Metrics/MethodLength
+  def prompt_ship_placement(ship)
     puts `clear`
-    puts "\nPlace your #{ship[0]}. The #{ship[0]} requires #{ship[1]} adjacent " \
-         "coordinates.\nSeparate coordinates with a space."
+    puts "\nPlace your #{ship[0]}. The #{ship[0]} requires #{ship[1]} " \
+         "adjacent coordinates.\nSeparate coordinates with a space."
     puts @player_board.render(true)
-    valid_user_input = false
-    player_input = nil
+  end
+
+  def generate_user_coordinates(ship)
+    prompt_ship_placement(ship)
+    valid_user_input, player_input = nil
     until valid_user_input
       player_input = gets.chomp
       valid_user_input = parse_player_coordinates(ship, player_input)
@@ -76,9 +79,13 @@ class Game # rubocop:disable Metrics/ClassLength
   end
 
   def parse_player_coordinates(ship, player_input)
+    # This first conditional checks if the user typed n coordinates separated by
+    # spaces, where n is the ship's length. If true, it runs the "else" section
     if !player_input.match?(/^([A-D][1-4]\s){#{ship[1] - 1}}[A-D][1-4]$/)
       false
     else
+      # It then checks whether the coordinates are a valid location using the
+      # Board.valid_placement? method.
       @player_board.valid_placement?(
         Ship.new(ship[0], ship[1]),
         convert_input_to_coordinates(player_input)
