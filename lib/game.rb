@@ -94,7 +94,7 @@ class Game
     play_or_quit, valid_input = nil
     until valid_input
       play_or_quit = gets.chomp.downcase
-      valid_input = play_or_quit.match?(/^(p|q)$/)
+      valid_input = valid_play_or_quit(play_or_quit)
       puts "Invalid input. Press 'p' to play or 'q' to quit." unless valid_input
     end
     start_game if play_or_quit == "p"
@@ -105,7 +105,7 @@ class Game
     valid_input = false
     until valid_input
       restart_input = gets.chomp.downcase
-      valid_input = restart_input.match?(/^(y|n)$/)
+      valid_input = valid_yes_or_no(restart_input)
       puts "Invalid input. Please enter 'y' or 'n'." unless valid_input
     end
     restart_input == "y" ? start_game : return
@@ -168,5 +168,13 @@ class Game
         convert_input_to_coordinates(player_input)
       )
     end
+  end
+
+  def valid_play_or_quit(input)
+    input.match?(/^(p|q)$/)
+  end
+
+  def valid_yes_or_no(input)
+    input.match?(/^(y|n)$/)
   end
 end
