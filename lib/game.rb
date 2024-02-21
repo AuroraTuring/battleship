@@ -19,18 +19,13 @@ class Game # rubocop:disable Metrics/ClassLength
   def main_menu
     puts "Welcome to BATTLESHIP!"
     puts "Press 'p' to play or 'q' to quit"
-    play_or_quit = ""
-    while play_or_quit != "p" && play_or_quit != "q"
+    play_or_quit, valid_input = nil
+    until valid_input
       play_or_quit = gets.chomp.downcase
-      if play_or_quit == "p"
-        break
-      elsif play_or_quit == "q"
-        return
-      else
-        puts 'Invalid input. Press "p" to play or "q" to quit'
-      end
+      valid_input = play_or_quit.match?(/^(p|q)$/)
+      puts "Invalid input. Press 'p' to play or 'q' to quit." unless valid_input
     end
-    start_game
+    start_game if play_or_quit == "p"
   end
 
   def start_game
