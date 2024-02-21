@@ -9,6 +9,7 @@ class Game
     @player_board = nil
     @computer_board = nil
     @game_in_progress = false
+    @ship_list = [["cruiser", 3], ["submarine", 2]]
   end
 
   def main_menu # rubocop:disable Metrics/MethodLength
@@ -35,20 +36,37 @@ class Game
     game_loop
   end
 
-  def place_computer_ships
-    possible_coords = JSON.parse(File.read("./ship_locations.json"))
-    cruiser_coords = possible_coords["cruiser"].sample
-    submarine_coords = possible_coords["submarine"].sample
-    @computer_board.place(Ship.new("Cruiser", 3), cruiser_coords)
-    valid_submarine_coords = @computer_board.overlapping(submarine_coords)
-    until valid_submarine_coords
-      submarine_coords = possible_coords["submarine"].sample
-      valid_submarine_coords = @computer_board.overlapping(submarine_coords)
+  def generate_computer_coordinates(ship_type)
+    coordinates = possible_coords[ship_type].sample
+    while @computer_board.overlapping(coordinates)
+      coordinates = possible_coords[ship_type].sample
     end
-    @computer_board.place(Ship.new("Submarine", 2), submarine_coords)
   end
 
-  def place_player_ships; end
+  def generate_user_coordinates(ship)
+    puts "Place your #{ship[0]}. The #{ship[0]} requires #{ship[1]} adjacent" \
+         "coordinates.\nSeparate coordinates with a space, e.g. B2 B3 B4."
+    valid_user_input = false
+    player_input = nil
+    until valid_user_input
+      player_input = gets.chomp
+      valid_user_input = parse_player_coordinates(ship, player_input)
+    end
+    convert_input_to_coordinates(player_input)
+  end
+
+  def convert_input_to_coordinates(input); end
+
+  def place(board)
+    @ship_list.each do |ship|
+      coordinates = if board == @computer_board
+                      generate_computer_coordinates(ship[0])
+                    else
+                      generate_user_coordinates(ship)
+                    end
+      board.place(Ship.new(ship[0], ship[1]), coordinates)
+    end
+  end
 
   def game_loop; end
 end
