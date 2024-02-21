@@ -74,8 +74,13 @@ class Turn
     coordinate_to_fire_upon
   end
 
-  def take_player_shot
-    puts "\nIt's your turn! Choose a coordinate to fire upon."
+  def take_player_shot(computer_won)
+    if computer_won
+      puts "The computer sank all your ships. You have one more shot to tie the game!"
+      puts "Choose a coordinate to fire upon."
+    else
+      puts "\nIt's your turn! Choose a coordinate to fire upon."
+    end
     valid_shot, player_input = nil
     until valid_shot
       player_input = gets.chomp.upcase

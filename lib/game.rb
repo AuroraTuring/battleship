@@ -46,11 +46,8 @@ class Game
   end
 
   def display_player_turn(turn, computer_won)
-    player_coordinates = turn.take_player_shot
+    player_coordinates = turn.take_player_shot(computer_won)
     turn.display_both_boards
-    if computer_won
-      puts "The computer sank all your ships. You have one more shot to tie the game!"
-    end
     turn.show_player_shot_results(player_coordinates)
     sleep(2)
   end
