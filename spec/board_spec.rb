@@ -37,8 +37,7 @@ RSpec.describe Board do
     it "knows ship length" do
       expect(@board.valid_placement?(@cruiser, %w[A1 A2])).to be false
       expect(@board.valid_placement?(@cruiser, %w[A1 A2 A3])).to be true
-      expect(@board.valid_placement?(@submarine,
-                                     %w[A2 A3 A4])).to be false
+      expect(@board.valid_placement?(@submarine, %w[A2 A3 A4])).to be false
       expect(@board.valid_placement?(@submarine, %w[A2 A3])).to be true
     end
 
@@ -109,7 +108,7 @@ RSpec.describe Board do
     end
   end
 
-  describe "#Unit tests" do
+  describe "#unit tests" do
     it "can check consecutive coordinates" do
       consecutive1 = %w[C1 C2 C3 C4]
       consecutive2 = %w[A2 B2 C2 D2]
