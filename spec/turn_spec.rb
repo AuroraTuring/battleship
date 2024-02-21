@@ -14,9 +14,7 @@ RSpec.describe Turn do
       expect(@turn).to be_a(Turn)
     end
 
-    # it "has attributes" do
-
-    # end
+    # Test that it has @turn.computer_board and @turn.player_board
   end
 
   describe "#display_both_boards" do
@@ -74,7 +72,7 @@ RSpec.describe Turn do
                         "D M M M M \n"
 
       16.times do
-        @turn.get_computer_shot
+        @turn.take_computer_shot
       end
       expect(@turn.display_player_board).to eq(expected_output)
     end
