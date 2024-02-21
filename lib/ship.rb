@@ -1,4 +1,3 @@
-# To-do: add comments/documentation for class Ship
 class Ship
   attr_reader :name, :length, :health
 

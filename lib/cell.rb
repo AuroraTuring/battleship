@@ -1,4 +1,3 @@
-# To-do: documentation and comments for Cell class
 class Cell
   attr_reader :coordinate, :ship
 
@@ -30,7 +29,7 @@ class Cell
   end
 
   def hit?
-    !empty?
+    !empty? # && fired_upon?
   end
 
   def render(show_ship = false)

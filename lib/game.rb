@@ -1,3 +1,10 @@
+# ideas:
+# You won in x turns 2
+# High scores list 4
+# Timer 3
+# Educated guesses 1
+# Arbitrary number of cells
+# More ships to play with
 class Game
   def initialize
     @player_board = nil
@@ -59,7 +66,7 @@ class Game
 
   def generate_computer_coordinates(ship_name)
     coordinates = @possible_coordinates[ship_name].sample
-    while @computer_board.overlapping(coordinates)
+    while @computer_board.overlapping?(coordinates)
       coordinates = @possible_coordinates[ship_name].sample
     end
     coordinates
@@ -150,7 +157,7 @@ class Game
     @player_board = Board.new
     @computer_board = Board.new
     place(@computer_board)
-    computer_has_placed_ships_text
+    computer_has_placed_ships_text # return text instead of puts in method
     place(@player_board)
     game_loop
   end

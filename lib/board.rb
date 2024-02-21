@@ -1,4 +1,3 @@
-# To-do: documentation and comments for class Board
 class Board
   attr_reader :cells
 
@@ -27,7 +26,7 @@ class Board
 
     return false unless check_coordinate_format(sorted_coordinates)
     return false unless check_consecutive_coordinates(sorted_coordinates)
-    return false if overlapping(sorted_coordinates)
+    return false if overlapping?(sorted_coordinates)
 
     true
   end
@@ -81,7 +80,7 @@ class Board
     true
   end
 
-  def overlapping(coords)
+  def overlapping?(coords)
     coords.each do |coord|
       return true unless @cells[coord].empty?
     end

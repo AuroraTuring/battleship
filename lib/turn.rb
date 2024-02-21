@@ -88,7 +88,7 @@ class Turn
     prompt_user_shot(computer_won)
     valid_shot, player_input = nil
     until valid_shot
-      player_input = gets.chomp.upcase
+      player_input = gets.chomp.upcase # put in its own method and mock/stub
       valid_shot = check_valid_shot(player_input)
     end
     @computer_board.cells[player_input].fire_upon
@@ -96,6 +96,7 @@ class Turn
   end
 
   def valid_coordinate?(input)
+    input = input.upcase
     input.match?(/^[A-Z][1-4]$/)
   end
 end
