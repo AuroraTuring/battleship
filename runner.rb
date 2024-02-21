@@ -1,3 +1,3 @@
-require "./spec_helper"
+require "./spec/spec_helper"
 
 Game.new
