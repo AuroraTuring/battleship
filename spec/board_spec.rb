@@ -108,7 +108,7 @@ RSpec.describe Board do
     end
   end
 
-  describe "#Unit tests" do
+  describe "#unit tests" do
     it "can check consecutive coordinates" do
       consecutive1 = %w[C1 C2 C3 C4]
       consecutive2 = %w[A2 B2 C2 D2]
