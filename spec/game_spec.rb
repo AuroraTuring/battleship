@@ -128,5 +128,19 @@ RSpec.describe Game do
       is_valid = @game.valid_placement?(["submarine", 2], "B0 B1")
       expect(is_valid).to eq(false)
     end
+    it "can identify valid play or quit" do
+      pass1 = @game.valid_play_or_quit("p")
+      pass2 = @game.valid_play_or_quit("P")
+      pass3 = @game.valid_play_or_quit("q")
+      pass4 = @game.valid_play_or_quit("Q")
+      fail1 = @game.valid_play_or_quit("")
+      fail2 = @game.valid_play_or_quit("asdfjk")
+      expect(pass1).to eq(true)
+      expect(pass2).to eq(true)
+      expect(pass3).to eq(true)
+      expect(pass4).to eq(true)
+      expect(fail1).to eq(false)
+      expect(fail2).to eq(false)
+    end
   end
 end
