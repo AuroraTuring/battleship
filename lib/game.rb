@@ -4,12 +4,13 @@ require "./lib/cell"
 require "./lib/ship"
 require "json"
 
-class Game
+class Game # rubocop:disable Metrics/ClassLength
   def initialize
     @player_board = nil
     @computer_board = nil
     @game_in_progress = false
     @ship_list = [["cruiser", 3], ["submarine", 2]]
+    @possible_coordinates = JSON.parse(File.read("./ship_locations.json"))
     main_menu
   end
 
@@ -31,35 +32,56 @@ class Game
   end
 
   def start_game
+    @game_in_progress = true
     @player_board = Board.new
     @computer_board = Board.new
-    place_computer_ships
-    place_player_ships
+    place(@computer_board)
+    place(@player_board)
     game_loop
   end
 
   def generate_computer_coordinates(ship_type)
-    coordinates = possible_coords[ship_type].sample
+    coordinates = @possible_coordinates[ship_type].sample
     while @computer_board.overlapping(coordinates)
-      coordinates = possible_coords[ship_type].sample
+      coordinates = @possible_coordinates[ship_type].sample
     end
+    coordinates
   end
 
-  def generate_user_coordinates(ship)
-    puts "Place your #{ship[0]}. The #{ship[0]} requires #{ship[1]} adjacent" \
-         "coordinates.\nSeparate coordinates with a space, e.g. B2 B3 B4."
+  def generate_user_coordinates(ship) # rubocop:disable Metrics/MethodLength
+    puts `clear`
+    puts "\nPlace your #{ship[0]}. The #{ship[0]} requires #{ship[1]} adjacent " \
+         "coordinates.\nSeparate coordinates with a space."
+    puts @player_board.render(true)
     valid_user_input = false
     player_input = nil
     until valid_user_input
       player_input = gets.chomp
       valid_user_input = parse_player_coordinates(ship, player_input)
+      unless valid_user_input
+        puts "\nInvalid coordinates. Write #{ship[1]} coordinates separated by a space.\n"
+        puts "#{@player_board.render(true)}\n"
+      end
     end
     convert_input_to_coordinates(player_input)
   end
 
-  def convert_input_to_coordinates(input); end
+  def parse_player_coordinates(ship, player_input)
+    if !player_input.match?(/^([A-D][1-4]\s){#{ship[1] - 1}}[A-D][1-4]$/)
+      false
+    else
+      @player_board.valid_placement?(
+        Ship.new(ship[0], ship[1]),
+        convert_input_to_coordinates(player_input)
+      )
+    end
+  end
 
-  def place(board)
+  def convert_input_to_coordinates(input)
+    input.split(" ")
+  end
+
+  def place(board) # rubocop:disable Metrics/MethodLength
     @ship_list.each do |ship|
       coordinates = if board == @computer_board
                       generate_computer_coordinates(ship[0])
@@ -68,45 +90,57 @@ class Game
                     end
       board.place(Ship.new(ship[0], ship[1]), coordinates)
     end
-  end
+    return unless board == @computer_board
 
-  def place_player_ships
-    # puts "I have laid out my ships on the grid.
-    # You now need to lay out your two ships.
-    # The Cruiser is three units long and the Submarine is two units long.
-    #   1 2 3 4
-    # A . . . .
-    # B . . . .
-    # C . . . .
-    # D . . . .
-    # Enter the squares for the Cruiser (3 spaces):"
-    # # display user instructions
-    # # recieve input from user for Cruiser
-    # # if Cruiser is valid, place on board
-    # puts "Enter the squares for the Cruiser (3 spaces):
-    # > A1 A2 A3
-
-    #   1 2 3 4
-    # A S S S .
-    # B . . . .
-    # C . . . .
-    # D . . . .
-    # Enter the squares for the Submarine (2 spaces):"
-    # # if Cruiser is invalid, display error, loop for input
-    # puts "Enter the squares for the Submarine (2 spaces):
-    # > C1 C3
-    # Those are invalid coordinates. Please try again:
-    # > A1 B1
-    # Those are invalid coordinates. Please try again:
-    # > C1 D1"
-    # # run game_loop to play battleship
+    puts `clear`
+    puts "I have laid out my ships on the grid. Get ready to place your ships!"
+    sleep(3)
   end
 
   def game_loop
-    # recieve shot guess input
-    # check for hit or miss (S or .)
-    # S becomes H when hit and . becomes M
-    # sunk? and ended game or not
-    #
+    while @game_in_progress
+      turn = Turn.new(@player_board, @computer_board)
+      computer_coordinates = turn.take_computer_shot
+      turn.display_both_boards
+      turn.show_computer_shot_results(computer_coordinates)
+      player_coordinates = turn.take_player_shot
+      turn.show_player_shot_results(player_coordinates)
+      check_end_game
+    end
+  end
+
+  def list_all_player_ships
+    player_ships = []
+    @player_board.cells.each_value do |cell|
+      if !cell.empty? && !player_ships.include?(cell.ship)
+        player_ships << cell.ship
+      end
+    end
+    player_ships
+  end
+
+  def list_all_computer_ships
+    computer_ships = []
+    @computer_board.cells.each_value do |cell|
+      if !cell.empty? && !computer_ships.include?(cell.ship)
+        computer_ships << cell.ship
+      end
+    end
+    computer_ships
+  end
+
+  def check_end_game
+    player_wins = list_all_computer_ships.all?(&:sunk?)
+    computer_wins = list_all_player_ships.all?(&:sunk?)
+    @game_in_progress = false if player_wins || computer_wins
+    if player_wins && computer_wins
+      puts "It's a tie! Would you like to play again?"
+    elsif player_wins
+      puts "You won! Would you like to play again?"
+    elsif computer_wins
+      puts "The computer won! Would you like to play again?"
+    end
   end
 end
+
+Game.new
