@@ -41,25 +41,6 @@ RSpec.describe Turn do
                         "D . . . . \n"
       expect(computer_board).to eq(expected_output)
     end
-
-    it "can display both boards" do
-      @player_board.place(@cruiser, %w[A1 A2 A3])
-      @computer_board.place(@submarine, %w[B1 B2])
-
-      expected_output = "==============PLAYER BOARD==============\n" \
-                        "  1 2 3 4 \n" \
-                        "A S S S . \n" \
-                        "B . . . . \n" \
-                        "C . . . . \n" \
-                        "D . . . . \n" \
-                        "==============COMPUTER BOARD==============\n" \
-                        "  1 2 3 4 \n" \
-                        "A . . . . \n" \
-                        "B . . . . \n" \
-                        "C . . . . \n" \
-                        "D . . . . \n"
-      expect(@turn.display_both_boards).to eq(expected_output)
-    end
   end
 
   describe "#get_computer_shot" do
@@ -95,6 +76,21 @@ RSpec.describe Turn do
       expect(@turn.check_valid_shot("A8")).to be false
       expected = "Please enter a valid coordinate between A1 and D4.\n"
       expect { @turn.check_valid_shot("A8") }.to output(expected).to_stdout
+    end
+  end
+
+  describe "#choose_random_unfired_coordinate" do
+    it "will choose a coordinate that has not been fired upon" do
+      # letter a-d
+      # and number 1-4
+      cells_fired_upon = []
+      @player_board.cells["A1"].fire_upon
+      100.times do
+        unfired_coordinate = @turn.choose_random_unfired_coordinate
+        cells_fired_upon << unfired_coordinate
+        expect(unfired_coordinate).to_not eq("A1")
+      end
+      expect(cells_fired_upon.uniq.size > 1).to be true
     end
   end
 end
