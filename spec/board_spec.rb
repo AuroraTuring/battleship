@@ -131,7 +131,7 @@ RSpec.describe Board do
     end
     it "can identify overlapping ships" do
       @board.place(@cruiser, %w[A1 A2 A3])
-      expect(@board.overlapping(%w[A1 B1])).to eq(true)
+      expect(@board.overlapping?(%w[A1 B1])).to eq(true)
     end
   end
 end
