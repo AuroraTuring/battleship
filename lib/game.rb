@@ -17,7 +17,6 @@ class Game
     @possible_coordinates = JSON.parse(File.read("./ship_locations.json"))
     @player_wins = false
     @computer_wins = false
-    main_menu
   end
 
   # Methods are listed in alphabetical order

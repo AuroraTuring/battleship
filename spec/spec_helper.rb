@@ -1,5 +1,6 @@
 require "pry"
 require "rspec"
+require "json"
 require "./lib/ship"
 require "./lib/cell"
 require "./lib/board"

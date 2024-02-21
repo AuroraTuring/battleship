@@ -5,4 +5,4 @@ require "./lib/game"
 require "./lib/turn"
 require "json"
 
-Game.new
+Game.new.main_menu

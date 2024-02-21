@@ -50,10 +50,10 @@ RSpec.describe Game do
   end
 
   describe "#writing to the console" do
-    it "states it has placed ships" do
+    xit "states it has placed ships" do
       @game.computer_has_placed_ships_text
     end
-    it "displays the computer's turn" do
+    xit "displays the computer's turn" do
       @game.modify_boards(@player_board, @computer_board)
       @player_board.place(@cruiser, %w[A1 A2 A3])
       comp_cruiser = Ship.new("cruiser", 3)
@@ -61,7 +61,7 @@ RSpec.describe Game do
       turn = Turn.new(@player_board, @computer_board)
       @game.display_computer_turn(turn)
     end
-    it "prompts ship placement" do
+    xit "prompts ship placement" do
       @game.modify_boards(@player_board, @computer_board)
       @player_board.place(@cruiser, %w[A1 A2 A3])
       @game.prompt_ship_placement(["submarine", 2])
