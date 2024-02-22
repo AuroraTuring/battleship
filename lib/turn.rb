@@ -108,6 +108,6 @@ class Turn
 
   def valid_coordinate?(input)
     input = input.upcase
-    input.match?(/^[A-Z][1-4]$/)
+    input.match?(/^[A-D][1-4]$/)
   end
 end
